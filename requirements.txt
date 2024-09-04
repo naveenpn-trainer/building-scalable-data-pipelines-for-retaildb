@@ -1,0 +1,7 @@
+pandas
+boto3
+watchdog
+kafka-python
+
+#
+pymysql
