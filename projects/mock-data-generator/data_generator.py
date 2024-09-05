@@ -33,15 +33,7 @@ class OrderDataGenerator:
 
     def generate_data(self):
         self.order_id_start = OrdersStateFileUtility.read_last_order_id()
-        self.order_id_end = self.order_id_start+int(self.config['DEFAULT']['order_id_end'])+1
-
-        '''
-            1 st Iteration : range(1,21)
-            2nd Iteration : range(21,41)
-            3rd Iteration : range(41,61)
-            orders_state.txt
-            40
-        '''
+        self.order_id_end = self.order_id_start+int(self.config['DEFAULT']['order_id_end'])
         OrdersStateFileUtility.update_last_order_id(self.order_id_end)
         print(OrdersStateFileUtility.read_last_order_id())
         return {
