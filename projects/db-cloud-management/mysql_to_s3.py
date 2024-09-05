@@ -4,20 +4,16 @@ import pandas as pd
 from io import StringIO
 import configparser
 
-# Create a ConfigParser object
-config = configparser.ConfigParser()
 
-# Read the properties file
-config.read('config.properties')
 
 # MySQL connection details
 mysql_host = 'localhost'
 mysql_user = 'root'
-mysql_password = 'root'
-mysql_database = 'retail_db'
+mysql_password = 'qwerty'
+mysql_database = 'retaildb'
 
 # S3 settings
-s3_bucket = config.get("BUCKET_NAME")
+s3_bucket = "npntraining"
 
 # Initialize S3 client
 s3_client = boto3.client('s3')
@@ -61,7 +57,7 @@ def main():
     tables = ['employees', 'customers', 'categories','products']
     for table in tables:
         csv_content = fetch_table_to_csv(table)
-        s3_object_name = f"{table}/{table}.csv"
+        s3_object_name = f"retaildb/{table}/{table}.csv"
         upload_to_s3(csv_content, s3_object_name)
 
 

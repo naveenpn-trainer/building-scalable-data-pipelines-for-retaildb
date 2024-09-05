@@ -1,0 +1,13 @@
+{
+    "Name": "categories-crawler",
+    "Role": "arn:aws:iam::527633928321:role/my-custom-glue-role",
+    "DatabaseName": "retaildb",
+    "Targets": {
+        "S3Targets": [
+            {
+                "Path": "s3://npntraining/retaildb/categories/"
+            }
+        ]
+    },
+    "Description": "Crawler for my S3 data"
+}

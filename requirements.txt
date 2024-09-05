@@ -5,5 +5,3 @@ kafka-python
 
 #
 pymysql
-
-dotenv
