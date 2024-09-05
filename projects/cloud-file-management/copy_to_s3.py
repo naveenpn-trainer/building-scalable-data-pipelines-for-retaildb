@@ -7,6 +7,8 @@ BUCKET_NAME = "sunlife_bucket"
 LOCAL_DIRECTORY = "../../dataset/processed/"
 
 s3_client = boto3.client('s3')
+
+
 class MyHandler(FileSystemEventHandler):
     def on_created(self, event):
         if not event.is_directory and event.src_path.endswith('.csv'):
