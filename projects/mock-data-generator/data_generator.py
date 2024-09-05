@@ -4,14 +4,13 @@ import random
 import time
 import os
 import configparser
+from orders_state_file_utility import OrdersStateFileUtility
 
 
 class OrderDataGenerator:
     def __init__(self, config_file='config.properties'):
         self.config = configparser.ConfigParser()
         self.config.read(config_file)
-        print(int(self.config['DEFAULT']['employee_id_range'].split(",")[0]))
-        print(int(self.config['DEFAULT']['employee_id_range'].split(",")[1]))
         self.employee_ids = range(int(self.config['DEFAULT']['employee_id_range'].split(",")[0]),
                                   int(self.config['DEFAULT']['employee_id_range'].split(",")[1]))
         self.customer_ids = range(int(self.config['DEFAULT']['customer_id_start']),
@@ -20,8 +19,7 @@ class OrderDataGenerator:
                                  int(self.config['DEFAULT']['product_id_end']) + 1)
         self.quantity_range = range(int(self.config['DEFAULT']['quantity_min']),
                                     int(self.config['DEFAULT']['quantity_max']) + 1)
-        self.order_id_start = int(self.config['DEFAULT']['order_id_start'])
-        self.order_id_end = int(self.config['DEFAULT']['order_id_end'])
+
         self.start_date = datetime.strptime(self.config['DEFAULT']['start_date'], '%Y-%m-%d')
         self.end_date = datetime.strptime(self.config['DEFAULT']['end_date'], '%Y-%m-%d')
         self.csv_directory = self.config['DEFAULT']['csv_directory']
@@ -34,6 +32,18 @@ class OrderDataGenerator:
         return start + timedelta(seconds=random.randint(0, int((end - start).total_seconds())))
 
     def generate_data(self):
+        self.order_id_start = OrdersStateFileUtility.read_last_order_id()
+        self.order_id_end = self.order_id_start+int(self.config['DEFAULT']['order_id_end'])+1
+
+        '''
+            1 st Iteration : range(1,21)
+            2nd Iteration : range(21,41)
+            3rd Iteration : range(41,61)
+            orders_state.txt
+            40
+        '''
+        OrdersStateFileUtility.update_last_order_id(self.order_id_end)
+        print(OrdersStateFileUtility.read_last_order_id())
         return {
             "order_id": range(self.order_id_start, self.order_id_end),
             "order_date": [self.random_date(self.start_date, self.end_date) for _ in
